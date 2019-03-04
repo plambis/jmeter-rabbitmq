@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'com.plambis'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.apache.jmeter:ApacheJMeter_core:5.1'
+    compileOnly 'org.apache.jmeter:ApacheJMeter_java:5.1'
+    compileOnly 'com.rabbitmq:amqp-client:5.6.0'
+    testCompile 'junit:junit:4.12'
+}
+
