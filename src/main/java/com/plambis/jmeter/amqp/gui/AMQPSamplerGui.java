@@ -66,8 +66,6 @@ public abstract class AMQPSamplerGui extends AbstractSamplerGui {
 
         queue.setText(sampler.getQueue());
         routingKey.setText(sampler.getRoutingKey());
-        messageTTL.setText(sampler.getMessageTTL());
-        messageExpires.setText(sampler.getMessageExpires());
         queueDurable.setSelected(sampler.queueDurable());
         queueExclusive.setSelected(sampler.queueExclusive());
         queueAutoDelete.setSelected(sampler.queueAutoDelete());
@@ -141,8 +139,6 @@ public abstract class AMQPSamplerGui extends AbstractSamplerGui {
         sampler.setQueueExclusive(queueExclusive.isSelected());
         sampler.setQueueAutoDelete(queueAutoDelete.isSelected());
         sampler.setQueueRedeclare(queueRedeclare.isSelected());
-        sampler.setMessageTTL(messageTTL.getText());
-        sampler.setMessageExpires(messageExpires.getText());
         sampler.setQueueArguments((Arguments) queueArguments.createTestElement());
 
         sampler.setTimeout(timeout.getText());
@@ -232,32 +228,24 @@ public abstract class AMQPSamplerGui extends AbstractSamplerGui {
         gridBagConstraints.gridy = 1;
         queueSettings.add(routingKey, gridBagConstraints);
 
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        queueSettings.add(queueRedeclare, gridBagConstraints);
+
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        queueSettings.add(messageTTL, gridBagConstraints);
-
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        queueSettings.add(messageExpires, gridBagConstraints);
-
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
         queueSettings.add(queueDurable, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         queueSettings.add(queueExclusive, gridBagConstraints);
 
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         queueSettings.add(queueAutoDelete, gridBagConstraints);
 
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        queueSettings.add(queueRedeclare, gridBagConstraints);
-
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         queueSettings.add(queueArguments, gridBagConstraints);

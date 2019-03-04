@@ -60,8 +60,6 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
     private static final String QUEUE_AUTO_DELETE = "AMQPSampler.QueueAutoDelete";
     protected static final String ROUTING_KEY = "AMQPSampler.RoutingKey";
     private static final String QUEUE_ARGUMENTS = "AMQPSampler.QueueArguments";
-    private static final String MESSAGE_TTL = "AMQPSampler.MessageTTL";
-    private static final String MESSAGE_EXPIRES = "AMQPSampler.MessageExpires";
 
     private transient AMQPClient amqpClient;
 
@@ -78,7 +76,7 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
 
         QueueConfigurationImpl queueConf = new QueueConfigurationImpl(getQueue(), queueDurable(), queueExclusive(), queueAutoDelete());
         queueConf.setRedeclare(getQueueRedeclare());
-        queueConf.addQueueArguments(getQueueArgumentsAsMap());
+        queueConf.addQueueArguments(getQueueArguments().getArgumentsAsMap());
         channelConf.setQueueConfiguration(queueConf);
 
         ExchangeConfigurationImpl exchangeConf = new ExchangeConfigurationImpl(getExchange(), getExchangeType(), getExchangeDurable(), getExchangeAutoDelete());
@@ -88,11 +86,6 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
 
         return channelConf;
     }
-
-    protected Map<String, Object> getQueueArgumentsAsMap() {
-        return getQueueArguments().getArgumentsAsMap().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
-    }
-
 
     protected Map<String, Object> getExchangeArgumentsAsMap() {
         return getExchangeArguments().getArgumentsAsMap().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
@@ -200,39 +193,6 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
     public void setVirtualHost(String name) {
         setProperty(VIRTUAL_HOST, name);
     }
-
-
-    public String getMessageTTL() {
-        return getPropertyAsString(MESSAGE_TTL);
-    }
-
-    public void setMessageTTL(String name) {
-        setProperty(MESSAGE_TTL, name);
-    }
-
-    protected Integer getMessageTTLAsInt() {
-        if (getPropertyAsInt(MESSAGE_TTL) < 1) {
-            return null;
-        }
-        return getPropertyAsInt(MESSAGE_TTL);
-    }
-
-
-    public String getMessageExpires() {
-        return getPropertyAsString(MESSAGE_EXPIRES);
-    }
-
-    public void setMessageExpires(String name) {
-        setProperty(MESSAGE_EXPIRES, name);
-    }
-
-    protected Integer getMessageExpiresAsInt() {
-        if (getPropertyAsInt(MESSAGE_EXPIRES) < 1) {
-            return null;
-        }
-        return getPropertyAsInt(MESSAGE_EXPIRES);
-    }
-
 
     private List<String> getHosts() {
         return Arrays.asList(getHost().split(","));

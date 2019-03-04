@@ -118,6 +118,7 @@ public class AMQPClient {
     public void commitTransaction() throws IOException {
         if (!channelConf.useTx()) {
             log.warn("We do not use transactions at all!");
+            return;
         }
         channel.txCommit();
     }

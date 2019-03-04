@@ -1,11 +1,14 @@
 package com.plambis.jmeter.amqp.client.conf;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class QueueConfigurationImpl implements  QueueConfiguration {
-
+    private static final Logger log = LoggerFactory.getLogger(QueueConfigurationImpl.class);
     private final String queueName;
 
     private final boolean durable;
@@ -45,7 +48,14 @@ public class QueueConfigurationImpl implements  QueueConfiguration {
         return Collections.unmodifiableMap(queueArguments);
     }
 
-    public void addQueueArguments( Map<String, Object> queueArgs) {
+    public void addQueueArguments( Map<String, String> queueArgs) {
+        queueArguments.clear();
+        Map<String,Object> arguments = new HashMap<>(queueArgs.size());
+        for(Map.Entry<String,String> entry: queueArgs.entrySet()){
+            SupportedQueueAttribute attribute = SupportedQueueAttribute.valueByAttribute(entry.getKey());
+            arguments.put(entry.getKey(),attribute.convert(entry.getValue()));
+        }
+        log.debug("Queue attributes : {}", arguments);
         queueArguments.putAll(queueArgs);
     }
 
