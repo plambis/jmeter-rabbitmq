@@ -72,6 +72,7 @@ public class AMQPPublisher extends AMQPSampler implements Interruptible {
         try {
             MessagePublisherConfiguration publisherConfiguration = new MessagePublisherConfigurationImpl(getContentType(),
                     getCorrelationId(), getReplyToQueue(), getMessageType(), getMessageId(), getPersistent());
+            ((MessagePublisherConfigurationImpl) publisherConfiguration).addHeaders(getHeaders().getArgumentsAsMap());
             MessagePublisher publisher = new MessagePublisherImpl(getMessageClient(), publisherConfiguration);
 
             for (int idx = 0; idx < loop; idx++) {

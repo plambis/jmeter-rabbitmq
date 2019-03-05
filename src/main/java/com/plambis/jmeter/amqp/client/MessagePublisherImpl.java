@@ -32,8 +32,7 @@ public class MessagePublisherImpl implements MessagePublisher{
                 .correlationId(configuration.getCorrelationId())
                 .replyTo(configuration.getReplyToQueue())
                 .type(configuration.getMessageType())
-                .headers(prepareHeaders())
-                .build();
+                .headers(prepareHeaders());
         if (configuration.getMessageId() != null && !configuration.getMessageId().isEmpty()) {
             builder.messageId(configuration.getMessageId());
         }
