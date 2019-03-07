@@ -38,6 +38,10 @@ public class AMQPClient {
     }
 
     private boolean initChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
+        if (channel != null && channel.isOpen()) {
+            log.info("Reuse existing channel {}", getChannel().getChannelNumber());
+            return true;
+        }
 
         if (channel != null && !channel.isOpen()) {
             log.warn("channel " + getChannel().getChannelNumber()

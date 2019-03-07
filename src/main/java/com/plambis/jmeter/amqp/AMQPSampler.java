@@ -64,7 +64,10 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
     private transient AMQPClient amqpClient;
 
     protected boolean initClient() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
-        amqpClient = new AMQPClient(createChannelConfiguration());
+        if(amqpClient == null) {
+            log.info("initClient");
+            amqpClient = new AMQPClient(createChannelConfiguration());
+        }
         return true;
     }
 
@@ -335,7 +338,7 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
 
     @Override
     public void threadStarted() {
-
+        log.info("AMQPSampler.threadStarted called");
     }
 
     protected AMQPClient getMessageClient() {
